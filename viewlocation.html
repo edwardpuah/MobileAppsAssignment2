@@ -16,30 +16,36 @@
 
     <body>
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-
           <header class="mdl-layout__header">
               <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon">
                 <i class="material-icons">arrow_back</i>
               </button>
             <div class="mdl-layout__header-row">
-              <span class="mdl-layout-title" id="headerBarTitle">View Location</span>
+              <span class="mdl-layout-title" id="headerBarTitle">Add Location</span>
             </div>
           </header>
-
+            <div class="manage-locations-header">
+            <h1 data-ng-bind-template="Manage my locations">Manage my locations</h1>
+            </div>
           <main class="mdl-layout__content">
             <div class="content-grid mdl-grid">
+                
               <div class="mdl-cell">
                 <!--   Main page content here:   -->
-
-
+                      <input type="text" name="addLocation" placeholder="Address"/>
+                      <input type="text" name="lname" placeholder="Nickname"/>
+                      <p></p>
+                      <input type="button" value="Save" on click="" />
+                    
               </div>
             </div>
           </main>
         </div>
+        
 
         <!--   JavaScript files:   -->
         <script src="js/dateExtensions.js"></script>
         <script src="js/locationWeatherCache.js"></script>
-        <script src="js/viewLocationPage.js"></script>
+        <script src="js/addLocationPage.js"></script>
     </body>
 </html>
