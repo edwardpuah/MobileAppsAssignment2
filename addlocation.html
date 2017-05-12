@@ -28,13 +28,41 @@
             <div class="content-grid mdl-grid">
               <div class="mdl-cell">
                 <!--   Main page content here:   -->
+                  
+                        <!-- Textfield with Floating Label (text from MDL)-->
 
+                   <form action="#">
+                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="newAddress">
+                   <input class="mdl-textfield__input" type="text" id="sample3">
+                   <label class="mdl-textfield__label" for="sample3">New Address</label>
+                   </div>
+                   </form>
+                  
+                  <!--text from MDL-->
+                  <form action="#">
+                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="Nickname">
+                   <input class="mdl-textfield__input" type="text" id="sample3">
+                   <label class="mdl-textfield__label" for="sample3">Nickname</label>
+                   </div>
+                   </form>
+
+                        <!-- Raised button (text from MDL)-->
+                   <button class="mdl-button mdl-js-button mdl-button--raised" onclick="msg()" id="saveLocation">
+                    Add Location
+                   </button>
+                  
+                  
               </div>
             </div>
           </main>
         </div>
 
         <!--   JavaScript files:   -->
+        <script>
+            function msg() {
+                alert("Adderss Saved");
+            }
+        </script>
         <script src="js/dateExtensions.js"></script>
         <script src="js/locationWeatherCache.js"></script>
         <script src="js/addLocationPage.js"></script>
