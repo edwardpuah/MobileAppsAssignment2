@@ -27,3 +27,13 @@ function getGeoByAddress(){
         }
     });
 }
+function onchangeAddress(){
+    getGeoByAddress();
+}
+function addLocation(){
+    //alert(result.address_components[0].short_name);
+    if (result!==null){
+        var nickname=document.getElementById('nickname').value;
+        if (nickname===null)
+    }
+}
