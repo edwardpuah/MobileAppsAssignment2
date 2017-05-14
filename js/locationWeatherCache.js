@@ -30,7 +30,7 @@ function LocationWeatherCache()
     // property.  Returns the index of the added location.
     //
     this.addLocation = function(latitude, longitude, nickname) {
-    	//alert("yes");
+
     	var loca = {
     			nickname: nickname,
     			latitude: latitude,
@@ -41,7 +41,7 @@ function LocationWeatherCache()
     	return locations.length - 1;
     }
 
-   // Removes the saved location at the given index.
+    // Removes the saved location at the given index.
     //
     this.removeLocationAtIndex = function(index)
     {
@@ -90,11 +90,13 @@ function LocationWeatherCache()
 	    		return;
     		}
     	}
+    	
+    	//the query URL for darsky.net
     	var url = "https://api.darksky.net/forecast/8377b04ab8d9b33ed60f7046062aabd7/"
     		+loca.latitude+","+loca.longitude+"," +date
     		+"?exclude=currently,minutely,hourly,alerts,flags";
-    		//+"&callback=weatherResponse";
-    	//alert(url);
+
+    	//query weather information via JSONP
     	$.getJSON("http://query.yahooapis.com/v1/public/yql", {
     	    q: 'select * from json where url="'+url+'"',
     	    format: "json"
@@ -111,7 +113,6 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
-    	//alert(JSON.stringify(response));
     	var index = indexForLocation(response.latitude, response.longitude);
     	var forecasts = {
     			name: response.latitude+","+response.longitude+","+response.daily.data.time,

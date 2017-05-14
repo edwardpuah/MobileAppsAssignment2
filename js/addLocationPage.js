@@ -1,51 +1,64 @@
 // Code for the Add Location page.
+
 var map;
 var result;
-function initMap(){
-    map=new google.maps.Map(document.getElementById('map'),{
-        center:{lat:-34.397,lng:150.644},
-        zoom:8
-    });
+
+//init the map module on the App. This function will be the callback on querying google map api.
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 8
+  });
+  
 }
-function getGeoByAddress(){
-    var geocoder=new google.maps.Geocoder();
-    var address=document.getElementById('address').value;
-    geocoder.geocode({'address':address}, function(results, status){
-        if (status==='OK') {
-            result=result[0];
-            map.setCenter(results[0].geometry.location);
-            var marker=new google.maps.Maker({
-                map:map,
-                position:result[0].geometry.loation,
-                label:{
-                    text:results[0].formatted_address,
-                    color:'red'
-                }
-            });
-        }else{
-            
-        }
-    });
+
+
+//query geocode information by the address input by user. This function is completed with the google geocoding service.
+function getGeoByAddress() {
+	var geocoder = new google.maps.Geocoder();
+	var address = document.getElementById('address').value;
+	geocoder.geocode( { 'address': address}, function(results, status) {
+	      if (status == 'OK') {
+	    	result = results[0];
+	        map.setCenter(results[0].geometry.location);
+	        
+	        //add annotation on the map
+	        var marker = new google.maps.Marker({
+	            map: map,	            
+	            position: results[0].geometry.location,
+	            label: {
+	            	text: results[0].formatted_address,
+	            	color: "red"
+	            }
+	        });
+	    	  
+	      } else {
+	        
+	      }
+	});
 }
-function onchangeAddress(){
-    getGeoByAddress();
+
+//function bind to onkeyup event of the address input field. 
+function onchangeAddress() {
+	getGeoByAddress();	
 }
+
+
+//add location specified by user to locationweatherCache object, and then store it to the local storage.
 function addLocation() {
-	//alert(result.address_components[0].short_name);
+
 	if(result != null) {
 		var nickname = document.getElementById('nickname').value;
 		if(nickname==null || nickname=="")
 			nickname = result.formatted_address;
-		var weatherUtil = loadLocations();//= new LocationWeatherCache();//
-		//alert(weatherUtil.locations);
+		var weatherUtil = loadLocations(); //get locationweatherCache object from stored locations.
+
+		//add location specified by user to locationweatherCache object
 		weatherUtil.addLocation(result.geometry.location.lat(), result.geometry.location.lng(), nickname);
-		saveLocations(weatherUtil);
 		
-		//var str = localStorage.getItem(APP_PREFIX + "-weatherUtil");
-		//alert(str);
-		//var weatherUtil1 = loadLocations();
-		//alert(weatherUtil1.locations[0]);
-		
+		//store it to the local storage
+		saveLocations(weatherUtil);		
+
 		window.location.href='index.html';
 	}
 	else alert("The location is not found! Please check your input!");
