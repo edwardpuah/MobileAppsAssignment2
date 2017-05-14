@@ -30,10 +30,23 @@ function getGeoByAddress(){
 function onchangeAddress(){
     getGeoByAddress();
 }
-function addLocation(){
-    //alert(result.address_components[0].short_name);
-    if (result!==null){
-        var nickname=document.getElementById('nickname').value;
-        if (nickname===null)
-    }
+function addLocation() {
+	//alert(result.address_components[0].short_name);
+	if(result != null) {
+		var nickname = document.getElementById('nickname').value;
+		if(nickname==null || nickname=="")
+			nickname = result.formatted_address;
+		var weatherUtil = loadLocations();//= new LocationWeatherCache();//
+		//alert(weatherUtil.locations);
+		weatherUtil.addLocation(result.geometry.location.lat(), result.geometry.location.lng(), nickname);
+		saveLocations(weatherUtil);
+		
+		//var str = localStorage.getItem(APP_PREFIX + "-weatherUtil");
+		//alert(str);
+		//var weatherUtil1 = loadLocations();
+		//alert(weatherUtil1.locations[0]);
+		
+		window.location.href='index.html';
+	}
+	else alert("The location is not found! Please check your input!");
 }
