@@ -41,10 +41,11 @@ function LocationWeatherCache()
     	return locations.length - 1;
     }
 
-    // Removes the saved location at the given index.
+   // Removes the saved location at the given index.
     //
     this.removeLocationAtIndex = function(index)
     {
+    	locations.splice(index, 1);
     }
 
     // This method is used by JSON.stringify() to serialise this class.
@@ -52,6 +53,7 @@ function LocationWeatherCache()
     // are active web service requests and so doesn't need to be saved.
     //
     this.toJSON = function() {
+    	return JSON.stringify(locations);
     };
 
     // Given a public-data-only version of the class (such as from
@@ -59,6 +61,11 @@ function LocationWeatherCache()
     // instance to match that version.
     //
     this.initialiseFromPDO = function(locationWeatherCachePDO) {
+    	//alert(locationWeatherCachePDO);
+
+    	
+    	locations = JSON.parse(locationWeatherCachePDO);
+    	//alert(locations);
     };
 
     // Request weather for the location at the given index for the
@@ -70,8 +77,31 @@ function LocationWeatherCache()
     // The callback function should have two parameters.  The first
     // will be the index of the location and the second will be the
     // weather object for that location.
-    //
+    // https://api.darksky.net/forecast/8377b04ab8d9b33ed60f7046062aabd7/42.3601,-71.0589,409467600?exclude=currently,minutely,hourly,alerts,flags
+
+    var _this = this;
     this.getWeatherAtIndexForDate = function(index, date, callback) {
+    	//alert(date);
+    	var loca = locations[index];
+    	if(loca.forecasts!=null){
+    		var dt = new Date(parseInt(loca.forecasts.value.daily.data.time));
+    		if(date == dt.darkSkyDateString()){
+	    		callback(index, loca.forecasts);
+	    		return;
+    		}
+    	}
+    	var url = "https://api.darksky.net/forecast/8377b04ab8d9b33ed60f7046062aabd7/"
+    		+loca.latitude+","+loca.longitude+"," +date
+    		+"?exclude=currently,minutely,hourly,alerts,flags";
+    		//+"&callback=weatherResponse";
+    	//alert(url);
+    	$.getJSON("http://query.yahooapis.com/v1/public/yql", {
+    	    q: 'select * from json where url="'+url+'"',
+    	    format: "json"
+    	}, function(data) {
+    		_this.weatherResponse(data.query.results.json);
+    	});
+    	_this.callback = callback;
     };
 
     // This is a callback function passed to darksky.net API calls.
@@ -81,6 +111,15 @@ function LocationWeatherCache()
     // weather request.
     //
     this.weatherResponse = function(response) {
+    	//alert(JSON.stringify(response));
+    	var index = indexForLocation(response.latitude, response.longitude);
+    	var forecasts = {
+    			name: response.latitude+","+response.longitude+","+response.daily.data.time,
+    			value: response
+    	}
+    	_this.locationAtIndex(index).forecasts = forecasts;
+    	saveLocations(_this);
+    	_this.callback(index, forecasts);
     };
 
     // Private methods:
@@ -90,8 +129,12 @@ function LocationWeatherCache()
     // matching latitude and longitude if one exists, otherwise it
     // returns -1.
     //
-    function indexForLocation(latitude, longitude)
-    {
+    function indexForLocation(latitude, longitude) {
+    	for(var i=0; i<locations.length; i++){
+    		if(locations[i].latitude == latitude && locations[i].longitude == longitude)
+    			return i;
+    	}
+    	return -1;
     }
 }
 
@@ -99,10 +142,22 @@ function LocationWeatherCache()
 //
 function loadLocations()
 {
+	var str = localStorage.getItem(APP_PREFIX + "-weatherUtil");
+	//alert(str);
+	var weatherUtil = new LocationWeatherCache();
+	if(str != null && str != "") {
+		weatherUtil.initialiseFromPDO(str);
+	}
+//alert(weatherUtil.locations[0].nickname);
+	return weatherUtil;
+
 }
 
 // Save the singleton locationWeatherCache to Local Storage.
 //
-function saveLocations()
+function saveLocations(weatherUtil)
 {
+	var str = weatherUtil.toJSON();
+	//alert(str);
+	localStorage.setItem(APP_PREFIX + "-weatherUtil", str);
 }
