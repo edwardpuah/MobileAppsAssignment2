@@ -16,33 +16,77 @@
 
     <body>
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
           <header class="mdl-layout__header">
               <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon">
                 <i class="material-icons">arrow_back</i>
               </button>
             <div class="mdl-layout__header-row">
-              <span class="mdl-layout-title" id="headerBarTitle">Add Location</span>
+              <span class="mdl-layout-title" id="headerBarTitle">View Location</span>
             </div>
           </header>
-            <div class="manage-locations-header">
-            <h1 data-ng-bind-template="Manage my locations">Manage my locations</h1>
-            </div>
+
           <main class="mdl-layout__content">
             <div class="content-grid mdl-grid">
-                
               <div class="mdl-cell">
                 <!--   Main page content here:   -->
-                      
-                    
+                
+				<div id="map_detail"></div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				<p style="width:100%">
+				  <input class="mdl-slider mdl-js-slider" type="range" id="dateRange" min="0" max="29" value="29" step="1" oninput="dateChange()">
+				</p>
+				<label>The Weather of &nbsp</label>
+                <label id="date"></label>
+                <!-- MDL Progress Bar with Indeterminate Progress -->
+				<div id="loading" style="display:none; margin-top:50px" class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+				<table id="weatherTable" style="width:300px" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+				  <thead>
+				    <tr>
+				      <th class="mdl-data-table__cell--non-numeric">Item</th>
+				      <th width="100px">Value</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Weather Summary</td>
+				      <td width="100px"><label id="summary">25</label></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Minimum temperature(C)</td>
+				      <td><label id="minTemp">25</label></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Maximum temperature(C)</td>
+				      <td><label id="maxTemp">25</label></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Current humidity(%)</td>
+				      <td><label id="humidity">25</label></td>
+				    </tr>
+				    <tr>
+				      <td class="mdl-data-table__cell--non-numeric">Current wind speed(km/h)</td>
+				      <td><label id="wind">25</label></td>
+				    </tr>
+				  </tbody>
+				</table>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="removeLocation()">
+						  remove Location
+					</button>
+				</div>
               </div>
             </div>
           </main>
         </div>
-        
 
         <!--   JavaScript files:   -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
         <script src="js/dateExtensions.js"></script>
         <script src="js/locationWeatherCache.js"></script>
-        <script src="js/addLocationPage.js"></script>
+        <script src="js/viewLocationPage.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTwOj58N-WePbjMgn2z85CFxW9Z54DizU&language=en-us&callback=initMap"></script>
     </body>
 </html>

@@ -12,10 +12,6 @@
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="shortcut icon" sizes="196x196" href="images/icon.png" />
         <link rel="apple-touch-icon-precomposed" href="images/icon.png" />
-        <style type="text/css">
-      html, body { height: 100%; margin: 0; padding: 0; }
-      #map { height: 100%; }
-    </style>
     </head>
 
     <body>
@@ -32,41 +28,21 @@
             <div class="content-grid mdl-grid">
               <div class="mdl-cell">
                 <!--   Main page content here:   -->
-                                          <!-- Textfield with Floating Label (text from MDL)-->
-<!-- Textfield with Floating Label -->
-
-                  <!-- Textfield with Floating Label (text from MDL)-->
-                 <form action="#">
-                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                 <input class="mdl-textfield__input" type="text" id="newAddress">
-                 <label class="mdl-textfield__label" for="sample3">Add new address</label>
-                 </div>
-                 </form>
-
-                  
-                   <!--text from MDL-->
-                   <form action="#">
-                   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                   <input class="mdl-textfield__input" type="text" id="nickname">
-                   <label class="mdl-textfield__label" for="nickname">Nickname</label>
-                   </div>
-                   </form>
-
-                   <!-- Raised button (text from MDL)-->
-                   <button class="mdl-button mdl-js-button mdl-button--raised" onclick="" id="saveLocation">
-                    Add Location
-                   </button>
-             
-                   <div id="snakeBar" class="mdl-js-snackbar mdl-snackbar">
-                   <div class="mdl-snackbar__text"></div>
-                   <button class="mdl-snackbar__action" type="button"></button>
-                   </div>
-                    
-
-                  <br><br>
-                  <div id="map"></div>
-                     
-
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				    <label class="mdl-textfield__label">Address</label>
+				    <input class="mdl-textfield__input" type="text" id="address" onkeyup="onchangeAddress()"/>
+				</div>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+				    <label class="mdl-textfield__label">Nickname</label>
+				    <input class="mdl-textfield__input" type="text" id="nickname"/>
+				</div>
+				<br/>
+				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" onclick="addLocation()">
+						  Add Location
+					</button>
+				</div>
+				<div id="map"></div>
               </div>
             </div>
           </main>
@@ -76,7 +52,7 @@
         <script src="js/dateExtensions.js"></script>
         <script src="js/locationWeatherCache.js"></script>
         <script src="js/addLocationPage.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRX2EOv_EDxhrdeRrYCr6nLd4mFPhDj5k&libraries=places&callback=initMap"
-         async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTwOj58N-WePbjMgn2z85CFxW9Z54DizU&language=en-us&callback=initMap"
+    async defer></script>
     </body>
 </html>
